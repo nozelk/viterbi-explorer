@@ -1,26 +1,9 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Virtual env
-.venv/
-venv/
-env/
-ENV/
-
-# Flask
-instance/
-.webassets-cache/
-*.log
-flask_session/
+# Node / Vite
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
 
 # Editors
 .vscode/
@@ -34,24 +17,9 @@ flask_session/
 Thumbs.db
 desktop.ini
 
-# Build / dist
-build/
-dist/
-*.spec
-
-# Env files
-.env
-.env.*
-!.env.example
-
-# Coverage
-.coverage
-.coverage.*
-htmlcov/
-coverage.xml
-
-# Node (v primeru bodocega frontend build)
-node_modules/
+# Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
