@@ -413,11 +413,14 @@ function renderTrellis(): void {
   const result = demo.result;
   const states = result.states;
   const T = result.obsSeq.length;
-  const W = 1000;
-  const H = Math.max(340, 120 + states.length * 110);
+  const colGap = 180;
+  const rowGap = 110;
+  const padL = 160, padR = 60, padT = 90, padB = 40;
+  const W = padL + padR + Math.max(1, T - 1) * colGap;
+  const H = padT + padB + Math.max(1, states.length - 1) * rowGap;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
-  const padL = 170, padR = 70, padT = 100, padB = 50;
   const colW = T > 1 ? (W - padL - padR) / (T - 1) : 0;
   const rowH = states.length > 1 ? (H - padT - padB) / (states.length - 1) : 0;
 
@@ -464,7 +467,7 @@ function renderTrellis(): void {
       ? result.steps[demo.stepIdx]
       : null;
 
-  const NODE_R = 34;
+  const NODE_R = 26;
   for (let ti = 0; ti < T - 1; ti++) {
     const nextStep = result.steps[ti + 1];
     const reached = demo.stepIdx >= ti + 1;

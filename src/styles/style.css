@@ -340,8 +340,8 @@ details > summary::before { content: "▸"; color: var(--muted); margin-right: 0
 details[open] > summary::before { transform: rotate(90deg); }
 
 /* --- trellis -------------------------------------------------------- */
-.trellis-wrap { width: 100%; }
-.trellis-wrap svg { width: 100%; height: auto; max-height: 420px; display: block; }
+.trellis-wrap { width: 100%; display: flex; justify-content: center; }
+.trellis-wrap svg { width: 100%; max-width: 900px; height: auto; max-height: 420px; display: block; }
 .tr-col-label { fill: var(--muted); font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; }
 .tr-obs-label { fill: var(--accent); font-family: var(--mono); font-size: 12px; font-weight: 500; }
 .tr-row-label { fill: var(--text-2); font-family: var(--mono); font-size: 12px; font-weight: 500; }
