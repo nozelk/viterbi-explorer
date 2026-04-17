@@ -5,6 +5,8 @@ export const EXAMPLE_KEYS = [
   "sladoled",
   "razpolozenje",
   "borza",
+  "kava",
+  "promet",
 ] as const;
 
 export type ExampleKey = (typeof EXAMPLE_KEYS)[number];
@@ -69,5 +71,35 @@ export const EXAMPLES: Record<ExampleKey, Example> = {
       Bear: { Up: 0.2, Down: 0.6, Flat: 0.2 },
     },
     obsSeq: ["Up", "Up", "Down", "Down", "Down", "Up"],
+  },
+  kava: {
+    key: "kava",
+    states: ["Tired", "Alert"],
+    obsAlphabet: ["Espresso", "Water", "Tea"],
+    startP: { Tired: 0.5, Alert: 0.5 },
+    transP: {
+      Tired: { Tired: 0.6, Alert: 0.4 },
+      Alert: { Tired: 0.3, Alert: 0.7 },
+    },
+    emitP: {
+      Tired: { Espresso: 0.7, Water: 0.2, Tea: 0.1 },
+      Alert: { Espresso: 0.1, Water: 0.5, Tea: 0.4 },
+    },
+    obsSeq: ["Espresso", "Espresso", "Water", "Tea", "Water"],
+  },
+  promet: {
+    key: "promet",
+    states: ["Free", "Congested"],
+    obsAlphabet: ["SlowCar", "FastCar", "Bus"],
+    startP: { Free: 0.7, Congested: 0.3 },
+    transP: {
+      Free: { Free: 0.8, Congested: 0.2 },
+      Congested: { Free: 0.3, Congested: 0.7 },
+    },
+    emitP: {
+      Free: { SlowCar: 0.1, FastCar: 0.7, Bus: 0.2 },
+      Congested: { SlowCar: 0.6, FastCar: 0.1, Bus: 0.3 },
+    },
+    obsSeq: ["FastCar", "FastCar", "SlowCar", "SlowCar", "Bus", "SlowCar"],
   },
 };

@@ -3,7 +3,44 @@ import { PATHS } from "../paths";
 
 type ActiveKey = "index" | "markov" | "hmm" | "viterbi" | "demo" | "primeri";
 
-const BRAND_SVG = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%23818cf8'/><text x='8' y='12' text-anchor='middle' font-size='10' font-family='monospace' font-weight='700' fill='%230a0a0c'>V</text></svg>`;
+const BRAND_MARK = `
+<svg class="brand-mark" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="vx-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4338ca"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="32" height="32" rx="8" fill="url(#vx-bg)"/>
+  <g stroke="#ffffff" stroke-opacity="0.22" stroke-width="1" stroke-linecap="round">
+    <line x1="8" y1="10" x2="16" y2="10"/>
+    <line x1="8" y1="10" x2="16" y2="22"/>
+    <line x1="8" y1="22" x2="16" y2="10"/>
+    <line x1="8" y1="22" x2="16" y2="22"/>
+    <line x1="16" y1="10" x2="24" y2="22"/>
+    <line x1="16" y1="22" x2="24" y2="10"/>
+    <line x1="16" y1="22" x2="24" y2="22"/>
+  </g>
+  <g stroke="#fde68a" stroke-width="1.9" stroke-linecap="round">
+    <line x1="8" y1="10" x2="16" y2="22"/>
+    <line x1="16" y1="22" x2="24" y2="10"/>
+  </g>
+  <g fill="#ffffff">
+    <circle cx="8"  cy="10" r="2"/>
+    <circle cx="8"  cy="22" r="2"/>
+    <circle cx="16" cy="10" r="2"/>
+    <circle cx="16" cy="22" r="2"/>
+    <circle cx="24" cy="10" r="2"/>
+    <circle cx="24" cy="22" r="2"/>
+  </g>
+  <g fill="#fde68a">
+    <circle cx="8"  cy="10" r="2.4"/>
+    <circle cx="16" cy="22" r="2.4"/>
+    <circle cx="24" cy="10" r="2.4"/>
+  </g>
+</svg>`.trim();
+
+const FAVICON_SVG = encodeURIComponent(BRAND_MARK);
 
 export function mountLayout(active: ActiveKey, onLocaleChange: () => void): void {
   mountFavicon();
@@ -19,7 +56,7 @@ function mountFavicon(): void {
     link.rel = "icon";
     document.head.appendChild(link);
   }
-  link.href = `data:image/svg+xml,${BRAND_SVG}`;
+  link.href = `data:image/svg+xml,${FAVICON_SVG}`;
 }
 
 function renderNav(active: ActiveKey): void {
@@ -40,7 +77,7 @@ function renderNav(active: ActiveKey): void {
     <nav class="navbar navbar-expand-lg sticky-top">
       <div class="container-fluid app-container">
         <a class="navbar-brand d-flex align-items-center gap-2" href="${PATHS.home}">
-          <span class="brand-logo">V</span>
+          <span class="brand-logo">${BRAND_MARK}</span>
           <span>${i18n.common.brand}</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">

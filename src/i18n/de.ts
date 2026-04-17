@@ -251,6 +251,10 @@ R    0.40    0.60</pre>
       Sad: "Traurig",
       Bull: "Bullenmarkt",
       Bear: "Bärenmarkt",
+      Tired: "Müde",
+      Alert: "Wach",
+      Free: "Flüssig",
+      Congested: "Stau",
     },
     obsNames: {
       Umbrella: "Regenschirm",
@@ -264,6 +268,12 @@ R    0.40    0.60</pre>
       Up: "Hoch",
       Down: "Runter",
       Flat: "Flach",
+      Espresso: "Espresso",
+      Water: "Wasser",
+      Tea: "Tee",
+      SlowCar: "Langsames Auto",
+      FastCar: "Schnelles Auto",
+      Bus: "Bus",
     },
     initMessage: (t, obs) =>
       `Initialisierung (t=${t}, Beobachtung = '${obs}'): V[0][s] = π(s) · b_s(${obs}) für jeden Zustand s.`,
@@ -307,6 +317,16 @@ R    0.40    0.60</pre>
       name: "Aktienmarkt → Regime",
       description:
         "Klassischer HMM-Einsatz in der Finanzwelt (Regime-Switching-Modell). Versteckte Zustände: Bullenmarkt (steigend) oder Bärenmarkt (fallend). Beobachtungen: tägliche Indexbewegungen — Hoch, Runter, Flach. Aus den Tagesbewegungen schließen wir auf das Marktregime.",
+    },
+    kava: {
+      name: "Kaffeepause → Fokus",
+      description:
+        "Versteckte Zustände sind dein Fokus (müde / wach). Beobachtungen sind das Getränk in der Pause — Espresso, Wasser oder Tee. Aus der Getränkefolge raten wir, wann du müde warst.",
+    },
+    promet: {
+      name: "Autobahn → Verkehr",
+      description:
+        "Versteckte Zustände sind der Verkehrszustand auf einem Autobahnabschnitt (flüssig oder Stau). Beobachtungen sind, was die Kamera vorbeifahren sieht — langsames Auto, schnelles Auto oder Bus.",
     },
   },
 };

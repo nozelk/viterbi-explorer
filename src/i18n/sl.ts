@@ -251,6 +251,10 @@ D    0.40    0.60</pre>
       Sad: "Žalostno",
       Bull: "Bikov",
       Bear: "Medvedji",
+      Tired: "Utrujen",
+      Alert: "Buden",
+      Free: "Tekoče",
+      Congested: "Zastoj",
     },
     obsNames: {
       Umbrella: "Dežnik",
@@ -264,6 +268,12 @@ D    0.40    0.60</pre>
       Up: "Gor",
       Down: "Dol",
       Flat: "Mir",
+      Espresso: "Espresso",
+      Water: "Voda",
+      Tea: "Čaj",
+      SlowCar: "Počasni avto",
+      FastCar: "Hitri avto",
+      Bus: "Avtobus",
     },
     initMessage: (t, obs) =>
       `Inicializacija (t=${t}, opazovanje = '${obs}'): V[0][s] = π(s) · b_s(${obs}) za vsako stanje s.`,
@@ -307,6 +317,16 @@ D    0.40    0.60</pre>
       name: "Borza → Tržni režim",
       description:
         "Klasična uporaba HMM v financah (regime-switching model). Skrita stanja so tržni režim: Bikov trg (rast) ali Medvedji trg (padec). Opazovanja so dnevni premiki indeksa: Gor, Dol ali Mir. Iz zaporedja dnevnih gibov skušamo ugotoviti, kakšno je bilo ozadje trga.",
+    },
+    kava: {
+      name: "Kavna pavza → Fokus",
+      description:
+        "Skrita stanja so zbranost (utrujen / buden). Opazovanja so pijača, ki jo izbereš na pavzi — espresso, voda ali čaj. Iz zaporedja pijač ugibamo, kdaj si bil utrujen.",
+    },
+    promet: {
+      name: "Avtocesta → Promet",
+      description:
+        "Skrita stanja so stanje prometa na odseku avtoceste (tekoče ali zastoj). Opazovanja so vozila, ki jih kamera vidi mimo — počasni avto, hitri avto ali avtobus.",
     },
   },
 };

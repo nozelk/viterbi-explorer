@@ -250,6 +250,10 @@ R    0.40    0.60</pre>
       Sad: "Sad",
       Bull: "Bull",
       Bear: "Bear",
+      Tired: "Tired",
+      Alert: "Alert",
+      Free: "Free-flow",
+      Congested: "Congested",
     },
     obsNames: {
       Umbrella: "Umbrella",
@@ -263,6 +267,12 @@ R    0.40    0.60</pre>
       Up: "Up",
       Down: "Down",
       Flat: "Flat",
+      Espresso: "Espresso",
+      Water: "Water",
+      Tea: "Tea",
+      SlowCar: "Slow car",
+      FastCar: "Fast car",
+      Bus: "Bus",
     },
     initMessage: (t, obs) =>
       `Initialisation (t=${t}, observation = '${obs}'): V[0][s] = π(s) · b_s(${obs}) for every state s.`,
@@ -306,6 +316,16 @@ R    0.40    0.60</pre>
       name: "Stock market → Regime",
       description:
         "Classic HMM use in finance (regime-switching model). Hidden states: bull (up-market) or bear (down-market). Observations: daily index moves — Up, Down, Flat. From daily movements we try to infer the underlying market regime.",
+    },
+    kava: {
+      name: "Coffee break → Focus",
+      description:
+        "Hidden states are your focus level (tired / alert). Observations are what you drink at break time — espresso, water or tea. From the drink sequence we guess when you were tired.",
+    },
+    promet: {
+      name: "Highway → Traffic flow",
+      description:
+        "Hidden states are the traffic regime on a highway segment (free-flowing or congested). Observations are what the speed camera sees passing by — a slow car, a fast car or a bus.",
     },
   },
 };
