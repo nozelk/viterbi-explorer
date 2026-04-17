@@ -42,4 +42,17 @@ export function bootstrap(): void {
   renderAll();
 }
 
+function attachSpotlight(): void {
+  document.addEventListener("pointermove", (ev) => {
+    const target = ev.target;
+    if (!(target instanceof Element)) return;
+    const card = target.closest<HTMLElement>(".card-hover");
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty("--mx", `${ev.clientX - rect.left}px`);
+    card.style.setProperty("--my", `${ev.clientY - rect.top}px`);
+  }, { passive: true });
+}
+
 bootstrap();
+attachSpotlight();

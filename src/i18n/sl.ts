@@ -24,9 +24,10 @@ export const sl: LocaleStrings = {
   home: {
     title: "Viterbi Explorer — Dobrodošli",
     heroBadge: "Seminarska naloga · Računalništvo 2",
-    heroHeadStart: "Dobrodošli v ",
+    heroHeadStart: "",
     heroHeadHighlight: "Viterbi Explorer",
-    heroHeadEnd: ".",
+    heroHeadEnd: "",
+    heroTagline: "Vizualni priročnik za skrite Markovske modele.",
     heroLead:
       "Interaktivna razlaga <strong>skritih Markovskih modelov</strong> in <strong>Viterbijevega algoritma</strong> — od osnovnih Markovskih verig do animiranega trellis diagrama z numeričnimi primeri.",
     btnStart: "Začni s teorijo →",
@@ -290,7 +291,7 @@ D    0.40    0.60</pre>
     title: "Primeri",
     eyebrow: "05 · Scenariji",
     heading: "Pripravljeni primeri",
-    lead: "Hitro naloži parametre v demo in se igraj.",
+    lead: "Pripravljeni HMM scenariji. Vsaka kartica odpre interaktivni prikaz z že naloženim modelom.",
     statesCount: (n) => `${n} stanj`,
     symbolsCount: (n) => `${n} simbolov`,
     seqLen: (n) => `T=${n}`,

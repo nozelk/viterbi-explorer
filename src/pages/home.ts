@@ -14,7 +14,8 @@ export function renderHome(): void {
       <div class="col-lg-7">
         <span class="badge-accent mb-4"><span class="dot"></span>${h.heroBadge}</span>
         <h1>${h.heroHeadStart}<span class="gradient-text">${h.heroHeadHighlight}</span>${h.heroHeadEnd}</h1>
-        <p class="lead mt-3">${h.heroLead}</p>
+        <p class="hero-tagline mt-3">${h.heroTagline}</p>
+        <p class="lead">${h.heroLead}</p>
         <div class="d-flex gap-2 flex-wrap mt-4">
           <a href="${h.cards[0].href}" class="btn btn-accent btn-lg">${h.btnStart}</a>
           <a href="${h.cards[3].href}" class="btn btn-ghost btn-lg">${h.btnDemo}</a>

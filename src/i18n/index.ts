@@ -62,6 +62,7 @@ export interface LocaleStrings {
     heroHeadStart: string;
     heroHeadHighlight: string;
     heroHeadEnd: string;
+    heroTagline: string;
     heroLead: string;
     btnStart: string;
     btnDemo: string;

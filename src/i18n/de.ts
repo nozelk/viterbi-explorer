@@ -24,9 +24,10 @@ export const de: LocaleStrings = {
   home: {
     title: "Viterbi Explorer — Startseite",
     heroBadge: "Seminararbeit · Informatik 2",
-    heroHeadStart: "Willkommen bei ",
+    heroHeadStart: "",
     heroHeadHighlight: "Viterbi Explorer",
-    heroHeadEnd: ".",
+    heroHeadEnd: "",
+    heroTagline: "Ein visuelles Handbuch für Hidden-Markov-Modelle.",
     heroLead:
       "Eine interaktive Erklärung von <strong>Hidden-Markov-Modellen</strong> und dem <strong>Viterbi-Algorithmus</strong> — von einfachen Markov-Ketten bis zum animierten Trellis mit numerischen Beispielen.",
     btnStart: "Mit der Theorie beginnen →",
@@ -290,7 +291,7 @@ R    0.40    0.60</pre>
     title: "Beispiele",
     eyebrow: "05 · Szenarien",
     heading: "Fertige Beispiele",
-    lead: "Lade die Parameter mit einem Klick in die Demo und fang an zu spielen.",
+    lead: "Vorbereitete HMM-Szenarien. Jede Karte öffnet die interaktive Demo mit bereits geladenem Modell.",
     statesCount: (n) => `${n} Zustände`,
     symbolsCount: (n) => `${n} Symbole`,
     seqLen: (n) => `T=${n}`,
