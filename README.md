@@ -2,6 +2,141 @@
 
 # Viterbi Explorer
 
+**An interactive explainer for Hidden Markov Models and the Viterbi algorithm.**
+
+[![Deploy](https://github.com/nozelk/viterbi-explorer/actions/workflows/deploy.yml/badge.svg)](https://github.com/nozelk/viterbi-explorer/actions/workflows/deploy.yml)
+[![Pages](https://img.shields.io/badge/demo-live-818cf8?style=flat&logo=github)](https://nozelk.github.io/viterbi-explorer/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5-646cff?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![i18n](https://img.shields.io/badge/i18n-EN%20%7C%20DE%20%7C%20SL-2a2a30?style=flat)](#internationalization)
+
+### [→ Open the live demo](https://nozelk.github.io/viterbi-explorer/)
+
+</div>
+
+---
+
+A seminar project for the **Računalništvo 2** course. The app shows how the Viterbi algorithm reconstructs the most likely hidden state sequence of a Hidden Markov Model from an observation sequence — **fully client-side, no backend**.
+
+You can edit the initial, transition and emission probabilities live, build any observation sequence, and step through the trellis cell by cell to see exactly where each `V[t][s]` value comes from and how backtracking stitches together the winning path.
+
+## What's in the app
+
+- 📖 **Theory section** in three stages: Markov chains → HMMs → Viterbi
+- 🎛️ **Interactive demo** with fully editable probability tables
+- 🎬 **Animated trellis** with *init / recursion / termination* phases
+- 📊 **Synchronized `V` matrix** and a plain-text explanation for every step
+- 🌐 **Three languages**: English, German, Slovenian (auto-detected)
+- 🧪 **Four ready-made scenarios**: weather, ice cream, mood, stock market
+
+## Tech stack
+
+| Layer      | Choice                                              |
+| ---------- | --------------------------------------------------- |
+| Language   | TypeScript (strict mode)                            |
+| Build      | Vite 5 (multi-page)                                 |
+| UI         | Bootstrap 5 (via CDN) + custom CSS                  |
+| i18n       | Custom — separate modules `en.ts`, `de.ts`, `sl.ts` |
+| Algorithm  | Pure TypeScript, zero dependencies                  |
+| Hosting    | GitHub Pages via `actions/deploy-pages`             |
+
+The runtime has no `npm` dependencies — all the browser needs is the static bundle in `dist/`.
+
+## Project layout
+
+```text
+aplikacija/
+├── index.html                      # home
+├── demo.html                       # interactive demo
+├── primeri.html                    # scenario gallery
+├── teorija/
+│   ├── markovske-verige.html
+│   ├── hmm.html
+│   └── viterbi.html
+├── src/
+│   ├── main.ts                     # single entry, dispatches on body[data-page]
+│   ├── paths.ts                    # BASE-aware URL helpers for GitHub Pages
+│   ├── styles/style.css
+│   ├── components/layout.ts        # navbar, footer, language switcher
+│   ├── pages/                      # home, demo, primeri, theory
+│   ├── viterbi/
+│   │   ├── algorithm.ts            # runViterbi()
+│   │   ├── examples.ts             # 4 prebuilt HMM models
+│   │   └── types.ts
+│   └── i18n/
+│       ├── index.ts                # t(), setLocale(), detectLocale()
+│       ├── en.ts
+│       ├── de.ts
+│       └── sl.ts
+├── .github/workflows/deploy.yml
+├── vite.config.ts
+├── tsconfig.json
+└── package.json
+```
+
+## Local development
+
+Requires **Node.js 20+**.
+
+```powershell
+cd aplikacija
+npm install
+npm run dev          # dev server with hot reload
+```
+
+Other commands:
+
+```powershell
+npm run typecheck    # tsc --noEmit
+npm run build        # typecheck + vite build → dist/
+npm run preview      # serve the built dist/ locally
+```
+
+## Deployment
+
+Every push to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which:
+
+1. installs dependencies with `npm ci`,
+2. builds the site with `GITHUB_PAGES=true npm run build` (so Vite uses `/viterbi-explorer/` as its `base`),
+3. uploads `dist/` as the Pages artifact, and
+4. publishes it through the official `actions/deploy-pages@v4` action.
+
+In the repository settings, **Pages → Source** is set to **GitHub Actions** (no longer the legacy *branch + /docs* mode).
+
+## Internationalization
+
+The current locale is resolved in this order:
+
+1. `?lang=en|de|sl` query parameter
+2. `localStorage["viterbi-explorer-locale"]`
+3. `navigator.language`
+4. fallback: English
+
+All strings — including the full HTML of the theory pages — live in `src/i18n/{en,de,sl}.ts`. The algorithm and scenario data use **canonical English keys** for states and observations (e.g. `Sunny`, `Rainy`, `Umbrella`); display names are translated at render time via `translateStateName()` / `translateObsName()`.
+
+## The Viterbi algorithm — in brief
+
+For a Hidden Markov Model $\lambda = (A, B, \pi)$ and an observation sequence $O = O_1 O_2 \ldots O_T$, we want
+
+$$Q^* = \arg\max_{Q} P(Q \mid O, \lambda).$$
+
+The algorithm achieves this in three phases:
+
+$$V_1(i) = \pi_i \cdot b_i(O_1)$$
+
+$$V_t(j) = \max_{i} \big[ V_{t-1}(i) \cdot a_{ij} \big] \cdot b_j(O_t)$$
+
+$$P^* = \max_{i} V_T(i), \qquad q_T^* = \arg\max_{i} V_T(i)$$
+
+Backtracking then follows the stored predecessors to reconstruct the full path $Q^*$. The implementation lives in [`src/viterbi/algorithm.ts`](src/viterbi/algorithm.ts) and records the raw terms of each formula so the demo can render them verbatim in the active language.
+
+## License
+
+Released for educational purposes as part of a university seminar project.
+<div align="center">
+
+# Viterbi Explorer
+
 **Interaktivni razlagalnik skritih Markovskih modelov in Viterbijevega algoritma.**
 
 [![Deploy](https://github.com/nozelk/viterbi-explorer/actions/workflows/deploy.yml/badge.svg)](https://github.com/nozelk/viterbi-explorer/actions/workflows/deploy.yml)
