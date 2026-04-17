@@ -27,8 +27,8 @@
                     </li>
                 {% endfor %}
                 <li class="nav-item ms-lg-2">
-                    <a class="nav-link" href="https://en.wikipedia.org/wiki/Viterbi_algorithm" target="_blank" rel="noopener">
-                        <span style="color: var(--accent)">Wikipedia</span> <span style="color: var(--muted)">↗</span>
+                    <a class="nav-link" href="{{ REPO_URL }}" target="_blank" rel="noopener">
+                        <span style="color: var(--accent)">GitHub</span> <span style="color: var(--muted)">↗</span>
                     </a>
                 </li>
             </ul>
@@ -43,7 +43,9 @@
 <footer class="mt-5 py-4">
     <div class="container-fluid app-container d-flex justify-content-between flex-wrap gap-2">
         <span>Seminarska naloga &middot; Računalništvo 2 &middot; Skriti Markovski modeli in Viterbijev algoritem</span>
-        <span class="mono-small" style="color: var(--muted)">Flask · Bootstrap 5</span>
+        <span class="mono-small" style="color: var(--muted)">
+            <a href="{{ REPO_URL }}" target="_blank" rel="noopener">GitHub repo</a> · Flask · Bootstrap 5
+        </span>
     </div>
 </footer>
 

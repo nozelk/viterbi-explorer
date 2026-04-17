@@ -9,6 +9,19 @@ let timer = null;
 
 const $ = (id) => document.getElementById(id);
 
+function stopPlayback() {
+    clearInterval(timer);
+    timer = null;
+}
+
+function syncExampleControls() {
+    $("exampleSelect").value = currentKey;
+    document.querySelectorAll("[data-example]").forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.example === currentKey);
+    });
+    history.replaceState(null, "", `${location.pathname}?ex=${encodeURIComponent(currentKey)}`);
+}
+
 // ---- helpers: lepsi zapis stevil ----
 const SUP = { "-": "⁻", "+": "", "0": "⁰", "1": "¹", "2": "²", "3": "³",
               "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
@@ -29,6 +42,9 @@ function fmtProb(x, digits = 2) {
 function init() {
     const sel = $("exampleSelect");
     sel.addEventListener("change", () => loadExample(sel.value));
+    document.querySelectorAll("[data-example]").forEach((button) => {
+        button.addEventListener("click", () => loadExample(button.dataset.example));
+    });
 
     // ?ex= query param
     const qs = new URLSearchParams(location.search);
@@ -40,8 +56,17 @@ function init() {
     $("stepFwd").addEventListener("click", () => step(1));
     $("stepBack").addEventListener("click", () => step(-1));
     $("stepAll").addEventListener("click", playAll);
-    $("stepReset").addEventListener("click", () => { stepIdx = -1; render(); });
-    $("clearObs").addEventListener("click", () => { current.obs_seq = []; renderObs(); });
+    $("stopPlay").addEventListener("click", stopPlayback);
+    $("stepReset").addEventListener("click", () => {
+        stopPlayback();
+        stepIdx = -1;
+        render();
+    });
+    $("clearObs").addEventListener("click", () => {
+        stopPlayback();
+        current.obs_seq = [];
+        renderObs();
+    });
 
     // re-render on window resize so SVG proportions always fit the screen
     let rzTimer = null;
@@ -52,10 +77,12 @@ function init() {
 }
 
 function loadExample(key) {
+    stopPlayback();
     currentKey = key;
     current = JSON.parse(JSON.stringify(EXAMPLES[key]));
     result = null;
     stepIdx = -1;
+    syncExampleControls();
     renderAll();
     runViterbi(); // auto-run za takoj viden trellis
 }
@@ -65,7 +92,7 @@ function renderAll() {
     renderProbTables();
     renderTrellis();   // prazna shema
     renderMatrix();
-    $("explanation").innerHTML = "Pritisni <strong>Korak ▶</strong> za sprehod skozi algoritem.";
+    $("explanation").innerHTML = "Pritisni <strong>Naprej →</strong> za sprehod skozi algoritem.";
 }
 
 // ---------- observations builder ----------
@@ -152,6 +179,7 @@ function renderProbTables() {
 
 // ---------- run API ----------
 async function runViterbi() {
+    stopPlayback();
     if (current.obs_seq.length === 0) {
         $("explanation").textContent = "Najprej dodaj vsaj eno opazovanje.";
         return;
@@ -164,12 +192,21 @@ async function runViterbi() {
         emit_p: current.emit_p,
         obs_seq: current.obs_seq,
     };
-    const r = await fetch("/api/viterbi", {
-        method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body),
-    });
-    result = await r.json();
-    stepIdx = -1;
-    render();
+    try {
+        const r = await fetch("/api/viterbi", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(body),
+        });
+        if (!r.ok) throw new Error("API request failed");
+        result = await r.json();
+        stepIdx = -1;
+        render();
+    } catch (error) {
+        result = null;
+        $("explanation").textContent = "Pri izračunu je prišlo do napake. Poskusi ponovno.";
+        $("resultBox").innerHTML = '<span class="text-secondary">Izračun ni uspel.</span>';
+    }
 }
 
 // ---------- stepping ----------
@@ -182,11 +219,11 @@ function step(dir) {
 
 function playAll() {
     if (!result) return;
-    clearInterval(timer);
+    stopPlayback();
     stepIdx = -1;
     render();
     timer = setInterval(() => {
-        if (stepIdx >= result.steps.length - 1) { clearInterval(timer); return; }
+        if (stepIdx >= result.steps.length - 1) { stopPlayback(); return; }
         stepIdx++; render();
     }, 900);
 }
@@ -355,7 +392,7 @@ function renderExplanation() {
     const e = $("explanation");
     if (!result) return;
     if (stepIdx < 0) {
-        e.innerHTML = `<strong>Pripravljen.</strong> Pritisni <em>Korak ▶</em> za inicializacijo (t=0).`;
+        e.innerHTML = `<strong>Pripravljen.</strong> Pritisni <em>Naprej →</em> za inicializacijo (t=0).`;
         return;
     }
     const step = result.steps[stepIdx];

@@ -1,8 +1,18 @@
 # Viterbi Explorer
 
-Interaktivna spletna aplikacija za vizualizacijo **skritih Markovskih modelov (HMM)** in **Viterbijevega algoritma**. Seminarska naloga, Računalništvo 2.
+[![CI](https://github.com/nozelk/viterbi-explorer/actions/workflows/ci.yml/badge.svg)](https://github.com/nozelk/viterbi-explorer/actions/workflows/ci.yml)
 
-## Zagon
+Interaktivna Flask aplikacija za vizualizacijo **skritih Markovskih modelov (HMM)** in **Viterbijevega algoritma**. Projekt je nastal kot seminarska naloga pri predmetu Računalništvo 2.
+
+## Kaj aplikacija vsebuje
+
+- uvodno razlago: markovske verige → HMM → Viterbi
+- interaktivni prikaz trellis mreže s koraki algoritma
+- urejanje začetnih, prehodnih in emisijskih verjetnosti
+- pripravljene scenarije: vreme, sladoled, razpoloženje in borza
+- Flask API endpoint `/api/viterbi` za izračun algoritma
+
+## Lokalni zagon
 
 ```powershell
 cd aplikacija
@@ -12,36 +22,69 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Odpri http://127.0.0.1:5000
+Nato odpri `http://127.0.0.1:5000`.
 
-## Strani
+## Glavne poti
 
-- **`/`** — uvodna razlaga (markovska veriga → HMM → Viterbi)
-- **`/demo`** — interaktivni Viterbi s trellis diagramom, matriko in korak-za-korakom razlago
-- **`/primeri`** — trije pripravljeni scenariji (vreme/dežnik, sladoled Jurafsky, razpoloženje/objave)
+- `/` : uvod in navigacija skozi teorijo
+- `/teorija/markovske-verige` : Markovske verige
+- `/teorija/hmm` : skriti Markovski modeli
+- `/teorija/viterbi` : Viterbijev algoritem
+- `/demo` : interaktivni prikaz z matriko in backtrackingom
+- `/primeri` : hitri vstop v pripravljene scenarije
+- `/api/viterbi` : POST endpoint za izračun poti
 
-## Struktura
+## GitHub in CI
 
-```
+Repozitorij je objavljen na GitHubu:
+
+- https://github.com/nozelk/viterbi-explorer
+
+V repozitoriju je nastavljen GitHub Actions workflow v `.github/workflows/ci.yml`, ki ob vsakem `push` in `pull request`:
+
+- namesti odvisnosti
+- zažene osnovne teste za Flask poti in Viterbijev algoritem
+
+## Pomembna opomba o gostovanju
+
+GitHub lahko hrani kodo in poganja CI, ne more pa neposredno gostiti Flask strežnika kot dinamične backend aplikacije. Zato je trenutno na GitHubu pripravljen:
+
+- repozitorij
+- CI workflow
+- testno ogrodje
+
+Če boš hotel aplikacijo javno zagnati kot pravi strežnik, je naslednji korak deploy na Render, Railway ali podoben servis.
+
+## Struktura projekta
+
+```text
 aplikacija/
-├── app.py              # Flask routes + /api/viterbi
-├── viterbi.py          # algoritem + predpripravljeni primeri
+├── .github/workflows/ci.yml
+├── app.py
+├── viterbi.py
 ├── requirements.txt
+├── tests/
+│   ├── test_app.py
+│   └── test_viterbi.py
 ├── templates/
 │   ├── base.html
 │   ├── index.html
 │   ├── demo.html
-│   └── primeri.html
+│   ├── primeri.html
+│   └── teorija/
+│       ├── markov.html
+│       ├── hmm.html
+│       └── viterbi.html
 └── static/
-    ├── style.css       # dark theme, akcent cyan
-    └── demo.js         # trellis SVG + matrika + korak-animacija
+    ├── style.css
+    └── demo.js
 ```
 
-## Funkcije demo strani
+## Demo funkcije
 
-- Urejanje prehodnih, emisijskih in začetnih verjetnosti v stranski vrstici
-- Gradnja zaporedja opazovanj s klikom
-- Kontrole ▶ korak / ⏭ vse / ◀ nazaj / ↺ reset
-- Animiran trellis: trenutni stolpec je osvetljen, zmagovite poti označene, končna Viterbijeva pot obarvana oranžno
-- Viterbijeva matrika $V$ se polni sinhronizirano s trellisom
-- Razlaga vsakega koraka v obliki formul
+- hitri gumbi za preklop med scenariji
+- gradnja zaporedja opazovanj s klikom
+- kontrole za korak naprej, nazaj, samodejno predvajanje, ustavitev in ponastavitev
+- animiran trellis z označeno zmagovalno potjo
+- sinhronizirana Viterbijeva matrika `V`
+- tekstovna razlaga vsakega koraka

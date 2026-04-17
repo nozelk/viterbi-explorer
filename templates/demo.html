@@ -4,17 +4,24 @@
 
 <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 gap-3">
     <div>
-        <div class="eyebrow">04 · Demo</div>
+        <div class="eyebrow">04 · Interaktivni prikaz</div>
         <h1 class="h2 mt-2 mb-1">Interaktivni Viterbi</h1>
         <p class="text-secondary mb-0">Izberi primer, prilagodi opazovanja in se sprehodi skozi korake algoritma.</p>
     </div>
-    <div class="d-flex gap-2 align-items-center">
-        <label class="eyebrow mb-0 me-2">Primer</label>
-        <select id="exampleSelect" class="form-select" style="min-width: 220px;">
+    <div>
+        <div class="d-flex gap-2 align-items-center justify-content-lg-end">
+            <label class="eyebrow mb-0 me-2">Scenarij</label>
+            <select id="exampleSelect" class="form-select" style="min-width: 220px;">
+                {% for key, ex in examples.items() %}
+                    <option value="{{ key }}">{{ ex.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="quickExamples" class="quick-example-row mt-2">
             {% for key, ex in examples.items() %}
-                <option value="{{ key }}">{{ ex.name }}</option>
+                <button type="button" class="btn quick-example-btn" data-example="{{ key }}">{{ ex.name }}</button>
             {% endfor %}
-        </select>
+        </div>
     </div>
 </div>
 
@@ -28,7 +35,7 @@
             <div id="obsBuilder" class="d-flex flex-wrap gap-1 mb-2" style="min-height: 30px;"></div>
             <div class="d-flex gap-1 mb-3 align-items-start">
                 <div id="obsPalette" class="d-flex flex-wrap gap-1 flex-grow-1"></div>
-                <button id="clearObs" class="btn btn-sm btn-outline-secondary" title="Pobriši vse">↺</button>
+                <button id="clearObs" class="btn btn-sm btn-outline-secondary" title="Pobriši vse">Počisti</button>
             </div>
 
             <details class="mb-2">
@@ -44,7 +51,7 @@
                 <div id="startTable" class="mt-2"></div>
             </details>
 
-            <button id="runBtn" class="btn btn-accent w-100">Izračunaj Viterbi</button>
+            <button id="runBtn" class="btn btn-accent w-100">Ponovno izračunaj</button>
         </div>
     </aside>
 
@@ -53,12 +60,13 @@
         <!-- Trellis -->
         <div class="card p-3 mb-3">
             <div class="control-bar">
-                <div class="eyebrow mb-0">Trellis diagram</div>
-                <div class="btn-group btn-group-sm" role="group">
-                    <button id="stepBack"  class="btn btn-outline-light" title="Korak nazaj">◀</button>
-                    <button id="stepFwd"   class="btn btn-accent">Korak ▶</button>
-                    <button id="stepAll"   class="btn btn-outline-light">Predvajaj ⏭</button>
-                    <button id="stepReset" class="btn btn-outline-secondary">↺</button>
+                <div class="eyebrow mb-0">Trellis mreža</div>
+                <div class="control-actions">
+                    <button id="stepBack" class="btn btn-outline-light btn-sm" title="Korak nazaj">← Nazaj</button>
+                    <button id="stepFwd" class="btn btn-accent btn-sm">Naprej →</button>
+                    <button id="stepAll" class="btn btn-outline-light btn-sm">Predvajaj vse</button>
+                    <button id="stopPlay" class="btn btn-outline-light btn-sm">Ustavi</button>
+                    <button id="stepReset" class="btn btn-outline-secondary btn-sm">Ponastavi</button>
                 </div>
             </div>
             <div class="trellis-wrap">

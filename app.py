@@ -1,67 +1,101 @@
-from flask import Flask, render_template, request, jsonify
-from viterbi import run_viterbi, EXAMPLES
+"""Flask aplikacija za razlago HMM in Viterbijevega algoritma."""
 
-app = Flask(__name__)
+from flask import Flask, jsonify, render_template, request
+
+from viterbi import EXAMPLES, run_viterbi
 
 NAV = [
-    ("index",   "Domov",             "/"),
-    ("markov",  "Markovske verige",  "/teorija/markovske-verige"),
-    ("hmm",     "Skriti modeli",     "/teorija/hmm"),
+    ("index", "Domov", "/"),
+    ("markov", "Markovske verige", "/teorija/markovske-verige"),
+    ("hmm", "Skriti modeli", "/teorija/hmm"),
     ("viterbi", "Viterbi algoritem", "/teorija/viterbi"),
-    ("demo",    "Interaktivni demo", "/demo"),
-    ("primeri", "Primeri",           "/primeri"),
+    ("demo", "Interaktivni prikaz", "/demo"),
+    ("primeri", "Primeri", "/primeri"),
 ]
+REPO_URL = "https://github.com/nozelk/viterbi-explorer"
 
 
-@app.context_processor
-def inject_nav():
-    return {"NAV": NAV}
+def create_app(test_config=None):
+    """Ustvari in konfigurira Flask aplikacijo."""
+
+    flask_app = Flask(__name__)
+    flask_app.config.update(REPO_URL=REPO_URL)
+    if test_config:
+        flask_app.config.update(test_config)
+
+    @flask_app.context_processor
+    def inject_globals():
+        """V predloge doda navigacijo in povezavo do repozitorija."""
+
+        return {"NAV": NAV, "REPO_URL": flask_app.config["REPO_URL"]}
+
+    @flask_app.route("/")
+    def index():
+        """Prikaže uvodno stran."""
+
+        return render_template("index.html", active="index")
+
+    @flask_app.route("/teorija/markovske-verige")
+    def teorija_markov():
+        """Prikaže stran o markovskih verigah."""
+
+        return render_template("teorija/markov.html", active="markov")
+
+    @flask_app.route("/teorija/hmm")
+    def teorija_hmm():
+        """Prikaže stran o skritih Markovskih modelih."""
+
+        return render_template("teorija/hmm.html", active="hmm")
+
+    @flask_app.route("/teorija/viterbi")
+    def teorija_viterbi():
+        """Prikaže stran o Viterbijevem algoritmu."""
+
+        return render_template("teorija/viterbi.html", active="viterbi")
+
+    @flask_app.route("/demo")
+    def demo():
+        """Prikaže interaktivni prikaz z vsemi primeri."""
+
+        return render_template("demo.html", examples=EXAMPLES, active="demo")
+
+    @flask_app.route("/primeri")
+    def primeri():
+        """Prikaže pripravljene scenarije."""
+
+        return render_template("primeri.html", examples=EXAMPLES, active="primeri")
+
+    @flask_app.route("/api/viterbi", methods=["POST"])
+    def api_viterbi():
+        """Izvede Viterbijev algoritem za podane parametre modela."""
+
+        data = request.get_json()
+        states = data["states"]
+        observations_alphabet = data["obs_alphabet"]
+        start_p = {state: float(data["start_p"][state]) for state in states}
+        trans_p = {
+            state: {
+                next_state: float(data["trans_p"][state][next_state])
+                for next_state in states
+            }
+            for state in states
+        }
+        emit_p = {
+            state: {
+                obs: float(data["emit_p"][state][obs])
+                for obs in observations_alphabet
+            }
+            for state in states
+        }
+        obs_seq = data["obs_seq"]
+        result = run_viterbi(states, obs_seq, start_p, trans_p, emit_p)
+        return jsonify(result)
+
+    return flask_app
 
 
-@app.route("/")
-def index():
-    return render_template("index.html", active="index")
+app = create_app()
 
 
-@app.route("/teorija/markovske-verige")
-def teorija_markov():
-    return render_template("teorija/markov.html", active="markov")
-
-
-@app.route("/teorija/hmm")
-def teorija_hmm():
-    return render_template("teorija/hmm.html", active="hmm")
-
-
-@app.route("/teorija/viterbi")
-def teorija_viterbi():
-    return render_template("teorija/viterbi.html", active="viterbi")
-
-
-@app.route("/demo")
-def demo():
-    return render_template("demo.html", examples=EXAMPLES, active="demo")
-
-
-@app.route("/primeri")
-def primeri():
-    return render_template("primeri.html", examples=EXAMPLES, active="primeri")
-
-
-@app.route("/api/viterbi", methods=["POST"])
-def api_viterbi():
-    data = request.get_json()
-    states = data["states"]
-    observations_alphabet = data["obs_alphabet"]
-    start_p = {s: float(data["start_p"][s]) for s in states}
-    trans_p = {s: {s2: float(data["trans_p"][s][s2]) for s2 in states} for s in states}
-    emit_p = {
-        s: {o: float(data["emit_p"][s][o]) for o in observations_alphabet}
-        for s in states
-    }
-    obs_seq = data["obs_seq"]
-    result = run_viterbi(states, obs_seq, start_p, trans_p, emit_p)
-    return jsonify(result)
-
-
-app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)

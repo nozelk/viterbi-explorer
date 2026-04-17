@@ -262,6 +262,40 @@ kbd {
     border-color: var(--border-strong); background: var(--surface); color: var(--text-2);
 }
 
+.quick-example-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.45rem;
+}
+
+.quick-example-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    font-size: 0.78rem;
+    padding: 0.42rem 0.75rem;
+}
+
+.quick-example-btn:hover {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+    color: var(--text);
+}
+
+.quick-example-btn.is-active {
+    background: var(--accent-soft);
+    border-color: var(--accent-ring);
+    color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-ring) inset, 0 0 18px -10px var(--accent-glow);
+}
+
+.control-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
 /* ============ Badges / pills ============ */
 .badge-accent {
     display: inline-flex; align-items: center; gap: 7px;
@@ -705,6 +739,12 @@ footer {
     margin-bottom: 0.85rem;
     gap: 1rem;
     flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+    .quick-example-row { justify-content: flex-start; }
+    .control-actions { width: 100%; }
+    .control-actions .btn { flex: 1 1 calc(50% - 0.45rem); }
 }
 
 /* ============ Misc ============ */

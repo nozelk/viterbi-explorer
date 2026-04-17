@@ -17,7 +17,8 @@
             </p>
             <div class="d-flex gap-2 flex-wrap mt-4">
                 <a href="{{ url_for('teorija_markov') }}" class="btn btn-accent btn-lg">Začni s teorijo →</a>
-                <a href="{{ url_for('demo') }}" class="btn btn-ghost btn-lg">Preskoči na demo</a>
+                <a href="{{ url_for('demo') }}" class="btn btn-ghost btn-lg">Odpri prikaz</a>
+                <a href="{{ REPO_URL }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-lg">GitHub repo ↗</a>
             </div>
         </div>
         <div class="col-lg-5">
@@ -31,7 +32,7 @@
                             <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"/>
                         </marker>
                     </defs>
-                    <text x="20" y="26" class="small-muted">skrito (hidden)</text>
+                    <text x="20" y="26" class="small-muted">skrito stanje</text>
                     <circle cx="90"  cy="70" r="26" class="node-hidden"/>
                     <text x="90"  y="74" text-anchor="middle" class="node-text">S₁</text>
                     <circle cx="250" cy="70" r="26" class="node-hidden"/>
@@ -39,7 +40,7 @@
                     <path d="M116 70 Q170 30 224 70" stroke="var(--accent)" fill="none" stroke-width="1.5" marker-end="url(#arr)"/>
                     <path d="M224 70 Q170 110 116 70" stroke="var(--accent)" fill="none" stroke-width="1.5" marker-end="url(#arr)"/>
 
-                    <text x="20" y="154" class="small-muted">opazovano</text>
+                    <text x="20" y="154" class="small-muted">opazovanje</text>
                     <rect x="62" y="168" width="56" height="36" rx="8" class="node-obs"/>
                     <text x="90" y="191" text-anchor="middle" class="node-text">o₁</text>
                     <rect x="222" y="168" width="56" height="36" rx="8" class="node-obs"/>
