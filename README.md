@@ -45,7 +45,7 @@ The runtime has no `npm` dependencies — all the browser needs is the static bu
 ## Project layout
 
 ```text
-aplikacija/
+.
 ├── index.html                      # home
 ├── demo.html                       # interactive demo
 ├── primeri.html                    # scenario gallery
@@ -79,7 +79,6 @@ aplikacija/
 Requires **Node.js 20+**.
 
 ```powershell
-cd aplikacija
 npm install
 npm run dev          # dev server with hot reload
 ```
