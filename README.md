@@ -4,6 +4,11 @@
 
 Interaktivna Flask aplikacija za vizualizacijo **skritih Markovskih modelov (HMM)** in **Viterbijevega algoritma**. Projekt je nastal kot seminarska naloga pri predmetu Računalništvo 2.
 
+## Javna stran
+
+- GitHub Pages: https://nozelk.github.io/viterbi-explorer/
+- GitHub repo: https://github.com/nozelk/viterbi-explorer
+
 ## Kaj aplikacija vsebuje
 
 - uvodno razlago: markovske verige → HMM → Viterbi
@@ -11,6 +16,7 @@ Interaktivna Flask aplikacija za vizualizacijo **skritih Markovskih modelov (HMM
 - urejanje začetnih, prehodnih in emisijskih verjetnosti
 - pripravljene scenarije: vreme, sladoled, razpoloženje in borza
 - Flask API endpoint `/api/viterbi` za izračun algoritma
+- statična GitHub Pages različica, ki teče brez backend strežnika
 
 ## Lokalni zagon
 
@@ -39,11 +45,13 @@ Nato odpri `http://127.0.0.1:5000`.
 Repozitorij je objavljen na GitHubu:
 
 - https://github.com/nozelk/viterbi-explorer
+- https://nozelk.github.io/viterbi-explorer/
 
 V repozitoriju je nastavljen GitHub Actions workflow v `.github/workflows/ci.yml`, ki ob vsakem `push` in `pull request`:
 
 - namesti odvisnosti
 - zažene osnovne teste za Flask poti in Viterbijev algoritem
+- preveri, da se statična stran uspešno zgradi z `build_static_site.py`
 
 ## Pomembna opomba o gostovanju
 
@@ -52,6 +60,7 @@ GitHub lahko hrani kodo in poganja CI, ne more pa neposredno gostiti Flask stre�
 - repozitorij
 - CI workflow
 - testno ogrodje
+- statična GitHub Pages verzija v mapi `docs/`
 
 Če boš hotel aplikacijo javno zagnati kot pravi strežnik, je naslednji korak deploy na Render, Railway ali podoben servis.
 
@@ -61,6 +70,8 @@ GitHub lahko hrani kodo in poganja CI, ne more pa neposredno gostiti Flask stre�
 aplikacija/
 ├── .github/workflows/ci.yml
 ├── app.py
+├── build_static_site.py
+├── docs/
 ├── viterbi.py
 ├── requirements.txt
 ├── tests/

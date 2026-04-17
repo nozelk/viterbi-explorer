@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="sl" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Primeri</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/viterbi-explorer/static/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%23818cf8'/><text x='8' y='12' text-anchor='middle' font-size='10' font-family='monospace' font-weight='700' fill='%230a0a0c'>V</text></svg>">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid app-container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/viterbi-explorer/">
+            <span class="brand-logo">V</span>
+            <span>Viterbi Explorer</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav ms-auto gap-lg-1 align-items-lg-center">
+                
+                    <li class="nav-item">
+                        <a class="nav-link " href="/">Domov</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link " href="/teorija/markovske-verige">Markovske verige</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link " href="/teorija/hmm">Skriti modeli</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link " href="/teorija/viterbi">Viterbi algoritem</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link " href="/demo">Interaktivni prikaz</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link is-active" href="/primeri">Primeri</a>
+                    </li>
+                
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link" href="https://github.com/nozelk/viterbi-explorer" target="_blank" rel="noopener">
+                        <span style="color: var(--accent)">GitHub</span> <span style="color: var(--muted)">↗</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container-fluid app-container py-4 py-lg-5">
+    
+
+<div class="mb-4">
+    <div class="eyebrow">05 · Scenariji</div>
+    <h1 class="h2 mt-2 mb-1">Pripravljeni primeri</h1>
+    <p class="text-secondary mb-0">Hitro naloži parametre v demo in se igraj.</p>
+</div>
+
+<div class="row g-3">
+    
+    <div class="col-md-6 col-lg-4">
+        <a href="/viterbi-explorer/demo/?ex=vreme" class="card card-hover nav-card h-100">
+            <span class="badge-soft mb-2">2 stanj · 2 simbolov · T=4</span>
+            <h3>Vreme → Dežnik <span class="arrow">→</span></h3>
+            <p>Klasičen uvodni primer. Skrita stanja so vreme (sončno/deževno), opazovanja pa ali soseda opaziš z dežnikom. Iz zaporedja dežnikov ugibamo vreme.</p>
+            <div class="divider" style="margin: 1rem 0 0.75rem;"></div>
+            <div class="mono-small" style="color: var(--muted); line-height: 1.7;">
+                <div><span style="color: var(--text-2);">Stanja:</span> Soncno, Dezevno</div>
+                <div><span style="color: var(--text-2);">Zaporedje:</span>
+                    <span style="color: var(--accent);">BrezD. → Dezn. → Dezn. → BrezD.</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-6 col-lg-4">
+        <a href="/viterbi-explorer/demo/?ex=sladoled" class="card card-hover nav-card h-100">
+            <span class="badge-soft mb-2">2 stanj · 3 simbolov · T=3</span>
+            <h3>Sladoled (Jurafsky) <span class="arrow">→</span></h3>
+            <p>Primer iz knjige Jurafsky &amp; Martin. Skrita stanja: HOT/COLD dan. Opazovanja: stevilo pojedenih sladoledov (1, 2 ali 3).</p>
+            <div class="divider" style="margin: 1rem 0 0.75rem;"></div>
+            <div class="mono-small" style="color: var(--muted); line-height: 1.7;">
+                <div><span style="color: var(--text-2);">Stanja:</span> HOT, COLD</div>
+                <div><span style="color: var(--text-2);">Zaporedje:</span>
+                    <span style="color: var(--accent);">3 → 1 → 3</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-6 col-lg-4">
+        <a href="/viterbi-explorer/demo/?ex=razpolozenje" class="card card-hover nav-card h-100">
+            <span class="badge-soft mb-2">2 stanj · 3 simbolov · T=5</span>
+            <h3>Razpoloženje → Objave <span class="arrow">→</span></h3>
+            <p>Skrita stanja so razpolozenje osebe (veselo/zalostno), opazovanja pa tip objave na socialnem omrezju.</p>
+            <div class="divider" style="margin: 1rem 0 0.75rem;"></div>
+            <div class="mono-small" style="color: var(--muted); line-height: 1.7;">
+                <div><span style="color: var(--text-2);">Stanja:</span> Veselo, Zalostno</div>
+                <div><span style="color: var(--text-2);">Zaporedje:</span>
+                    <span style="color: var(--accent);">Meme → Citat → Citat → Selfie → Meme</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-6 col-lg-4">
+        <a href="/viterbi-explorer/demo/?ex=borza" class="card card-hover nav-card h-100">
+            <span class="badge-soft mb-2">2 stanj · 3 simbolov · T=6</span>
+            <h3>Borza → Tržni režim <span class="arrow">→</span></h3>
+            <p>Klasična uporaba HMM v financah (regime-switching model). Skrita stanja so tržni režim: Bikov trg (rast) ali Medvedji trg (padec). Opazovanja so dnevni premiki indeksa: Gor, Dol, ali Mir. Iz zaporedja dnevnih gibov skušamo ugotoviti, kakšno je bilo ozadje trga.</p>
+            <div class="divider" style="margin: 1rem 0 0.75rem;"></div>
+            <div class="mono-small" style="color: var(--muted); line-height: 1.7;">
+                <div><span style="color: var(--text-2);">Stanja:</span> Bikov, Medvedji</div>
+                <div><span style="color: var(--text-2);">Zaporedje:</span>
+                    <span style="color: var(--accent);">Gor → Gor → Dol → Dol → Dol → Gor</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+</div>
+
+
+</main>
+
+<footer class="mt-5 py-4">
+    <div class="container-fluid app-container d-flex justify-content-between flex-wrap gap-2">
+        <span>Seminarska naloga &middot; Računalništvo 2 &middot; Skriti Markovski modeli in Viterbijev algoritem</span>
+        <span class="mono-small" style="color: var(--muted)">
+            <a href="https://github.com/nozelk/viterbi-explorer" target="_blank" rel="noopener">GitHub repo</a> · Flask · Bootstrap 5
+        </span>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
