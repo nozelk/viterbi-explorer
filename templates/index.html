@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Viterbi Explorer — Dobrodošli{% endblock %}
+{% block content %}
+
+<section class="hero">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+            <span class="badge-accent mb-4"><span class="dot"></span>Seminarska naloga · Računalništvo 2</span>
+            <h1>
+                Dobrodošli v <span class="gradient-text">Viterbi Explorer</span>.
+            </h1>
+            <p class="lead mt-3">
+                Interaktivna razlaga <strong style="color: var(--text);">skritih Markovskih modelov</strong>
+                in <strong style="color: var(--text);">Viterbijevega algoritma</strong> —
+                od osnovnih Markovskih verig do animiranega trellis diagrama z
+                numeričnimi primeri.
+            </p>
+            <div class="d-flex gap-2 flex-wrap mt-4">
+                <a href="{{ url_for('teorija_markov') }}" class="btn btn-accent btn-lg">Začni s teorijo →</a>
+                <a href="{{ url_for('demo') }}" class="btn btn-ghost btn-lg">Preskoči na demo</a>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card p-4">
+                <svg viewBox="0 0 340 240" class="w-100" aria-hidden="true">
+                    <defs>
+                        <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                            <path d="M0,0 L8,4 L0,8 z" fill="var(--accent)"/>
+                        </marker>
+                        <marker id="arrMuted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                            <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"/>
+                        </marker>
+                    </defs>
+                    <text x="20" y="26" class="small-muted">skrito (hidden)</text>
+                    <circle cx="90"  cy="70" r="26" class="node-hidden"/>
+                    <text x="90"  y="74" text-anchor="middle" class="node-text">S₁</text>
+                    <circle cx="250" cy="70" r="26" class="node-hidden"/>
+                    <text x="250" y="74" text-anchor="middle" class="node-text">S₂</text>
+                    <path d="M116 70 Q170 30 224 70" stroke="var(--accent)" fill="none" stroke-width="1.5" marker-end="url(#arr)"/>
+                    <path d="M224 70 Q170 110 116 70" stroke="var(--accent)" fill="none" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                    <text x="20" y="154" class="small-muted">opazovano</text>
+                    <rect x="62" y="168" width="56" height="36" rx="8" class="node-obs"/>
+                    <text x="90" y="191" text-anchor="middle" class="node-text">o₁</text>
+                    <rect x="222" y="168" width="56" height="36" rx="8" class="node-obs"/>
+                    <text x="250" y="191" text-anchor="middle" class="node-text">o₂</text>
+                    <line x1="90"  y1="98" x2="90"  y2="166" stroke="var(--muted)" stroke-dasharray="3 4" marker-end="url(#arrMuted)"/>
+                    <line x1="250" y1="98" x2="250" y2="166" stroke="var(--muted)" stroke-dasharray="3 4" marker-end="url(#arrMuted)"/>
+                    <text x="170" y="230" text-anchor="middle" class="small-muted">emisijska verjetnost</text>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5 pt-4">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <div>
+            <div class="eyebrow">01 · Vsebina</div>
+            <h2 class="h3 mt-2 mb-0">Sledi naravnemu vrstnemu redu</h2>
+        </div>
+        <span class="mono-small" style="color: var(--muted)">priporočen tok →</span>
+    </div>
+    <p class="text-secondary" style="max-width: 640px;">
+        Profesor je opozoril, da je za Viterbi potrebno najprej razumeti
+        Markovske verige in skrite modele. Spodaj je naravno zaporedje, ki te pelje od
+        osnov do praktične demonstracije.
+    </p>
+
+    <div class="row g-3 mt-3">
+        <div class="col-md-6 col-xl-4">
+            <a href="{{ url_for('teorija_markov') }}" class="card card-hover nav-card">
+                <span class="nc-num">01</span>
+                <h3>Markovske verige <span class="arrow">→</span></h3>
+                <p>Stanja, prehodi in lastnost brez spomina. Osnovni gradnik vsega, kar sledi.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a href="{{ url_for('teorija_hmm') }}" class="card card-hover nav-card">
+                <span class="nc-num">02</span>
+                <h3>Skriti modeli <span class="arrow">→</span></h3>
+                <p>Ko stanj ne vidimo neposredno, temveč samo posledice. HMM in trije problemi.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a href="{{ url_for('teorija_viterbi') }}" class="card card-hover nav-card">
+                <span class="nc-num">03</span>
+                <h3>Viterbi algoritem <span class="arrow">→</span></h3>
+                <p>Dinamično programiranje, trellis in backtracking. Srce seminarske.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a href="{{ url_for('demo') }}" class="card card-hover nav-card">
+                <span class="nc-num">04</span>
+                <h3>Interaktivni demo <span class="arrow">→</span></h3>
+                <p>Animirani trellis. Spreminjaj verjetnosti in opazovanja, algoritem teče v živo.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a href="{{ url_for('primeri') }}" class="card card-hover nav-card">
+                <span class="nc-num">05</span>
+                <h3>Primeri <span class="arrow">→</span></h3>
+                <p>Pripravljeni scenariji: vreme, razpoloženje, Jurafskyjev sladoled.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a href="https://en.wikipedia.org/wiki/Hidden_Markov_model" target="_blank" rel="noopener" class="card card-hover nav-card">
+                <span class="nc-num">06</span>
+                <h3>Zunanji viri <span class="arrow">↗</span></h3>
+                <p>Jurafsky &amp; Martin, Rabinerjev tutorial, Wikipedia članki in več.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5 pt-4">
+    <div class="row g-4 align-items-stretch">
+        <div class="col-lg-6">
+            <div class="eyebrow">02 · Osrednja formula</div>
+            <h2 class="h3 mt-2 mb-3">Viterbijeva rekurzija</h2>
+            <div class="formula-box">
+                v<sub>t</sub>(j) = max<sub>i</sub> &nbsp; v<sub>t−1</sub>(i) · a<sub>ij</sub> · b<sub>j</sub>(o<sub>t</sub>)
+            </div>
+            <p class="mb-0">
+                Najboljša verjetnost poti, ki se konča v stanju <code>j</code> ob času <code>t</code>,
+                je maksimum po vseh možnih predhodnih stanjih <code>i</code>, pomnožen s
+                prehodno verjetnostjo <code>a<sub>ij</sub></code> in emisijsko
+                <code>b<sub>j</sub>(o<sub>t</sub>)</code>.
+            </p>
+        </div>
+        <div class="col-lg-6">
+            <div class="eyebrow">03 · Kje se to uporablja</div>
+            <h2 class="h3 mt-2 mb-3">Viterbi v realnem svetu</h2>
+            <div class="d-grid gap-2">
+                <div class="card p-3"><strong>Prepoznavanje govora.</strong> <span class="text-secondary">Fonemi kot skrita stanja, akustični signal kot opazovanja.</span></div>
+                <div class="card p-3"><strong>Bioinformatika.</strong> <span class="text-secondary">Označevanje kodirajočih regij v DNA zaporedjih.</span></div>
+                <div class="card p-3"><strong>POS-tagging.</strong> <span class="text-secondary">Določanje besednih vrst v računalniški lingvistiki.</span></div>
+                <div class="card p-3"><strong>Telekomunikacije.</strong> <span class="text-secondary">Dekodiranje konvolucijskih kod (Viterbi, 1967).</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

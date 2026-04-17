@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual env
+.venv/
+venv/
+env/
+ENV/
+
+# Flask
+instance/
+.webassets-cache/
+*.log
+flask_session/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build / dist
+build/
+dist/
+*.spec
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Node (v primeru bodocega frontend build)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

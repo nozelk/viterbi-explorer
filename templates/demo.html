@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Interaktivni Viterbi{% endblock %}
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-end mb-4 gap-3">
+    <div>
+        <div class="eyebrow">04 · Demo</div>
+        <h1 class="h2 mt-2 mb-1">Interaktivni Viterbi</h1>
+        <p class="text-secondary mb-0">Izberi primer, prilagodi opazovanja in se sprehodi skozi korake algoritma.</p>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+        <label class="eyebrow mb-0 me-2">Primer</label>
+        <select id="exampleSelect" class="form-select" style="min-width: 220px;">
+            {% for key, ex in examples.items() %}
+                <option value="{{ key }}">{{ ex.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="demo-grid">
+    <!-- SIDEBAR: parametri -->
+    <aside>
+        <div class="card p-3 sidebar-sticky">
+            <div class="eyebrow mb-3">Parametri</div>
+
+            <label class="form-label">Zaporedje opazovanj</label>
+            <div id="obsBuilder" class="d-flex flex-wrap gap-1 mb-2" style="min-height: 30px;"></div>
+            <div class="d-flex gap-1 mb-3 align-items-start">
+                <div id="obsPalette" class="d-flex flex-wrap gap-1 flex-grow-1"></div>
+                <button id="clearObs" class="btn btn-sm btn-outline-secondary" title="Pobriši vse">↺</button>
+            </div>
+
+            <details class="mb-2">
+                <summary>Prehodne verjetnosti A</summary>
+                <div id="transTable" class="mt-2"></div>
+            </details>
+            <details class="mb-2">
+                <summary>Emisijske verjetnosti B</summary>
+                <div id="emitTable" class="mt-2"></div>
+            </details>
+            <details class="mb-3">
+                <summary>Začetne verjetnosti π</summary>
+                <div id="startTable" class="mt-2"></div>
+            </details>
+
+            <button id="runBtn" class="btn btn-accent w-100">Izračunaj Viterbi</button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div>
+        <!-- Trellis -->
+        <div class="card p-3 mb-3">
+            <div class="control-bar">
+                <div class="eyebrow mb-0">Trellis diagram</div>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button id="stepBack"  class="btn btn-outline-light" title="Korak nazaj">◀</button>
+                    <button id="stepFwd"   class="btn btn-accent">Korak ▶</button>
+                    <button id="stepAll"   class="btn btn-outline-light">Predvajaj ⏭</button>
+                    <button id="stepReset" class="btn btn-outline-secondary">↺</button>
+                </div>
+            </div>
+            <div class="trellis-wrap">
+                <svg id="trellis" viewBox="0 0 800 380" preserveAspectRatio="xMidYMid meet"></svg>
+            </div>
+            <div class="progress mt-3">
+                <div id="progress" class="progress-bar bg-accent" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Matrix + Explanation + Result -->
+        <div class="row g-3">
+            <div class="col-lg-8">
+                <div class="card p-3 h-100">
+                    <div class="eyebrow mb-2">Viterbijeva matrika V</div>
+                    <div id="matrixWrap" class="matrix-scroll">
+                        <div class="text-secondary small">Matrika se bo prikazala ob izračunu.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card p-3 h-100">
+                    <div class="eyebrow mb-2">Rezultat</div>
+                    <div id="resultBox" class="small text-secondary">—</div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card p-3">
+                    <div class="eyebrow mb-2">Razlaga trenutnega koraka</div>
+                    <div id="explanation" class="mono-small text-secondary">
+                        Klikni <strong style="color: var(--text);">Izračunaj Viterbi</strong>, da začneš.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="examplesData" type="application/json">{{ examples|tojson }}</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='demo.js') }}"></script>
+{% endblock %}

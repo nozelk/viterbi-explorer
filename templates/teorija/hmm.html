@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}Skriti Markovski modeli{% endblock %}
+{% block content %}
+
+<div class="prose mx-auto">
+    <div class="eyebrow">02 · Skriti modeli</div>
+    <h1 class="mt-2 mb-3">Skriti Markovski modeli (HMM)</h1>
+    <p class="lead" style="color: var(--text-2); font-size: 1.08rem;">
+        Nadgradnja markovske verige: stanj <strong>ne vidimo</strong> neposredno.
+        Vidimo samo njihove posledice — opazovanja.
+    </p>
+
+    <h2>Kaj pomeni "skrito"?</h2>
+    <p>
+        V čisti markovski verigi vidimo stanja. Toda v resničnem svetu pogosto <em>ne vidimo</em>
+        tega, kar nas zanima. Vidimo le <strong>simptome</strong>:
+    </p>
+    <ul>
+        <li>Ne vidimo <em>vremena na oddaljeni postaji</em>, vidimo pa <em>ali sosed prinese dežnik</em>.</li>
+        <li>Ne vidimo <em>razpoloženja osebe</em>, vidimo pa <em>objave na socialnih omrežjih</em>.</li>
+        <li>Ne vidimo <em>fonemov</em>, ki jih človek izgovori, vidimo pa <em>zvočni signal</em>.</li>
+        <li>Ne vidimo <em>besedne vrste</em> besede, vidimo pa <em>besedo samo</em>.</li>
+    </ul>
+
+    <div class="callout">
+        <div class="eyebrow">Ključna ideja</div>
+        Skriti sistem (markovska veriga) generira zaporedje opazovanj. Naša naloga je iz
+        opazovanj <em>sklepati nazaj</em> na skrito stanje.
+    </div>
+
+    <h2>Formalno: pet komponent HMM</h2>
+    <ol>
+        <li><strong>Stanja</strong> S = {s₁, …, s<sub>N</sub>} — skrita, ne opazljiva.</li>
+        <li><strong>Abeceda opazovanj</strong> O = {o₁, …, o<sub>M</sub>} — to kar dejansko vidimo.</li>
+        <li><strong>Prehodna matrika</strong> A (kot pri markovski verigi).</li>
+        <li><strong>Emisijska matrika</strong> B, kjer je <code>b<sub>j</sub>(o) = P(o | s<sub>j</sub>)</code>.</li>
+        <li><strong>Začetna porazdelitev</strong> π.</li>
+    </ol>
+
+    <h3>Shema modela</h3>
+    <div class="card p-4 my-3">
+        <svg viewBox="0 0 620 260" class="w-100" aria-hidden="true">
+            <defs>
+                <marker id="h-arr"  markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                    <path d="M0,0 L8,4 L0,8 z" fill="var(--accent)"/></marker>
+                <marker id="h-arrM" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                    <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"/></marker>
+            </defs>
+            <text x="30" y="30" class="small-muted">skrita stanja (nevidna)</text>
+            <!-- hidden states row -->
+            <g>
+                <circle cx="110" cy="80" r="30" class="node-hidden"/><text x="110" y="85" text-anchor="middle" class="node-text">S₁</text>
+                <circle cx="280" cy="80" r="30" class="node-hidden"/><text x="280" y="85" text-anchor="middle" class="node-text">S₂</text>
+                <circle cx="450" cy="80" r="30" class="node-hidden"/><text x="450" y="85" text-anchor="middle" class="node-text">S₃</text>
+            </g>
+            <!-- transitions -->
+            <path d="M140 80 L250 80" stroke="var(--accent)" stroke-width="1.5" fill="none" marker-end="url(#h-arr)"/>
+            <path d="M310 80 L420 80" stroke="var(--accent)" stroke-width="1.5" fill="none" marker-end="url(#h-arr)"/>
+            <text x="195" y="70" text-anchor="middle" class="small-muted">a<tspan font-size="8">12</tspan></text>
+            <text x="365" y="70" text-anchor="middle" class="small-muted">a<tspan font-size="8">23</tspan></text>
+
+            <text x="30" y="205" class="small-muted">opazovanja (vidna)</text>
+            <!-- observations row -->
+            <g>
+                <rect x="82"  y="170" width="56" height="34" rx="6" class="node-obs"/><text x="110" y="192" text-anchor="middle" class="node-text">o₁</text>
+                <rect x="252" y="170" width="56" height="34" rx="6" class="node-obs"/><text x="280" y="192" text-anchor="middle" class="node-text">o₂</text>
+                <rect x="422" y="170" width="56" height="34" rx="6" class="node-obs"/><text x="450" y="192" text-anchor="middle" class="node-text">o₃</text>
+            </g>
+            <!-- emissions -->
+            <line x1="110" y1="110" x2="110" y2="168" stroke="var(--muted)" stroke-dasharray="3 4" marker-end="url(#h-arrM)"/>
+            <line x1="280" y1="110" x2="280" y2="168" stroke="var(--muted)" stroke-dasharray="3 4" marker-end="url(#h-arrM)"/>
+            <line x1="450" y1="110" x2="450" y2="168" stroke="var(--muted)" stroke-dasharray="3 4" marker-end="url(#h-arrM)"/>
+            <text x="520" y="142" class="small-muted">b<tspan font-size="9">j</tspan>(o)</text>
+
+            <!-- time axis -->
+            <line x1="60" y1="245" x2="560" y2="245" stroke="var(--border-strong)" stroke-width="1"/>
+            <text x="110" y="258" text-anchor="middle" class="small-muted">t = 1</text>
+            <text x="280" y="258" text-anchor="middle" class="small-muted">t = 2</text>
+            <text x="450" y="258" text-anchor="middle" class="small-muted">t = 3</text>
+        </svg>
+    </div>
+
+    <h2>Trije osnovni problemi HMM</h2>
+    <p>Znotraj HMM formalizma obstajajo trije klasični problemi:</p>
+
+    <div class="row g-3 my-3">
+        <div class="col-md-4">
+            <div class="card p-3 h-100">
+                <div class="step-num">1</div>
+                <h3 class="h6 mt-3 mb-1">Evalvacija</h3>
+                <p class="small text-secondary mb-0">
+                    Kolikšna je verjetnost, da je dani HMM proizvedel dano zaporedje opazovanj?
+                    <br><span class="mono-small text-muted-2">→ forward algoritem</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 h-100" style="border-color: var(--accent-ring);">
+                <div class="step-num">2</div>
+                <h3 class="h6 mt-3 mb-1" style="color: var(--accent);">Dekodiranje</h3>
+                <p class="small text-secondary mb-0">
+                    Katero zaporedje skritih stanj je <strong>najbolj verjetno</strong> proizvedlo opazovanja?
+                    <br><span class="mono-small text-muted-2">→ <strong style="color: var(--accent);">Viterbijev algoritem</strong></span>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 h-100">
+                <div class="step-num">3</div>
+                <h3 class="h6 mt-3 mb-1">Učenje</h3>
+                <p class="small text-secondary mb-0">
+                    Kako iz zaporedja opazovanj ocenimo parametre modela (A, B, π)?
+                    <br><span class="mono-small text-muted-2">→ Baum-Welch</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="callout">
+        <div class="eyebrow">Naš fokus</div>
+        V seminarski se osredotočamo na <strong>dekodiranje</strong>. Viterbijev algoritem
+        je natanko odgovor na to vprašanje.
+    </div>
+
+    <h2>Predpostavke HMM</h2>
+    <ul>
+        <li><strong>Markovska predpostavka:</strong> stanje ob času t+1 je odvisno samo od stanja ob času t.</li>
+        <li><strong>Neodvisnost opazovanj:</strong> opazovanje ob času t je odvisno samo od stanja ob času t, ne od drugih stanj ali opazovanj.</li>
+    </ul>
+    <p>
+        To sta močni poenostavitvi — prav zaradi njiju je model računsko obvladljiv.
+    </p>
+
+    <div class="page-nav">
+        <a href="{{ url_for('teorija_markov') }}">
+            <span class="eyebrow">← 01 · Nazaj</span>
+            <strong>Markovske verige</strong>
+        </a>
+        <a href="{{ url_for('teorija_viterbi') }}" class="next">
+            <span class="eyebrow">03 · Naprej →</span>
+            <strong>Viterbijev algoritem</strong>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

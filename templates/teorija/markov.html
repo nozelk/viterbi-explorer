@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Markovske verige{% endblock %}
+{% block content %}
+
+<div class="prose mx-auto">
+    <div class="eyebrow">01 · Osnove</div>
+    <h1 class="mt-2 mb-3">Markovske verige</h1>
+    <p class="lead" style="color: var(--text-2); font-size: 1.08rem;">
+        Matematični model, ki opisuje sistem, ki skače med stanji — in kjer je
+        <strong>naslednje stanje odvisno samo od trenutnega</strong>.
+    </p>
+
+    <h2>Ideja: sistem brez spomina</h2>
+    <p>
+        Predstavljaj si vreme, ki se dnevno spreminja med <em>sončno</em> in <em>deževno</em>.
+        Za napoved jutrišnjega vremena nas ne zanima, kakšno je bilo pred mesecem —
+        zadostuje, da poznamo <strong>današnje</strong> vreme. To je bistvo markovske lastnosti:
+    </p>
+
+    <div class="formula-box">
+        P(X<sub>t+1</sub> | X<sub>t</sub>, X<sub>t−1</sub>, …, X<sub>0</sub>) = P(X<sub>t+1</sub> | X<sub>t</sub>)
+    </div>
+
+    <p>
+        Sistem <strong>nima spomina</strong>: vsa zgodovina je stisnjena v trenutno stanje.
+        Pravi se, da je to <em>markovska lastnost prvega reda</em>.
+    </p>
+
+    <h2>Stanja in prehodi</h2>
+    <p>
+        Markovsko verigo definirata dve stvari:
+    </p>
+    <ul>
+        <li><strong>Množica stanj</strong> S = {s₁, s₂, …, s<sub>N</sub>}.</li>
+        <li><strong>Prehodna matrika</strong> A, kjer je <code>a<sub>ij</sub> = P(X<sub>t+1</sub>=s<sub>j</sub> | X<sub>t</sub>=s<sub>i</sub>)</code>.</li>
+    </ul>
+    <p>
+        Vsota vsake vrstice mora biti <code>1</code> — iz danega stanja moramo nekam preiti.
+    </p>
+
+    <div class="callout">
+        <div class="eyebrow">Konkretno</div>
+        Vreme s stanjema <strong>Sončno</strong> in <strong>Deževno</strong>:
+        če je danes sončno, je jutri s 70 % verjetnostjo spet sončno, s 30 % deževno.
+        Če je danes deževno, je jutri s 60 % deževno, s 40 % sončno.
+    </div>
+
+    <h3>Vizualizacija</h3>
+    <div class="card p-4 my-3">
+        <svg viewBox="0 0 500 220" class="w-100" aria-hidden="true">
+            <defs>
+                <marker id="m-arr" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                    <path d="M0,0 L9,4.5 L0,9 z" fill="var(--accent)"/>
+                </marker>
+            </defs>
+            <!-- nodes -->
+            <circle cx="140" cy="110" r="46" class="node-hidden"/>
+            <text x="140" y="105" text-anchor="middle" class="node-text">Sončno</text>
+            <text x="140" y="123" text-anchor="middle" class="small-muted">S</text>
+            <circle cx="360" cy="110" r="46" class="node-hidden"/>
+            <text x="360" y="105" text-anchor="middle" class="node-text">Deževno</text>
+            <text x="360" y="123" text-anchor="middle" class="small-muted">D</text>
+
+            <!-- S -> D (upper) -->
+            <path d="M184 92 Q250 40 316 92" fill="none" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#m-arr)"/>
+            <text x="250" y="50" text-anchor="middle" class="small-muted">0.30</text>
+            <!-- D -> S (lower) -->
+            <path d="M316 128 Q250 180 184 128" fill="none" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#m-arr)"/>
+            <text x="250" y="195" text-anchor="middle" class="small-muted">0.40</text>
+            <!-- S self -->
+            <path d="M100 85 C 70 55, 70 140, 100 130" fill="none" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#m-arr)"/>
+            <text x="55"  y="112" text-anchor="middle" class="small-muted">0.70</text>
+            <!-- D self -->
+            <path d="M400 85 C 430 55, 430 140, 400 130" fill="none" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#m-arr)"/>
+            <text x="455" y="112" text-anchor="middle" class="small-muted">0.60</text>
+        </svg>
+    </div>
+
+    <h3>Prehodna matrika</h3>
+    <pre>       S       D
+S    0.70    0.30
+D    0.40    0.60</pre>
+
+    <h2>Začetna porazdelitev π</h2>
+    <p>
+        Poleg prehodov potrebujemo še <strong>začetno porazdelitev</strong> <code>π</code>, ki
+        pove, s kolikšno verjetnostjo smo v vsakem stanju ob času <code>t=0</code>. Npr.
+        <code>π = (0.6, 0.4)</code> pomeni 60 % da začnemo sončno.
+    </p>
+
+    <h2>Kaj lahko počnemo z markovsko verigo?</h2>
+    <ul>
+        <li><strong>Simuliramo</strong> poteke sistema.</li>
+        <li><strong>Računamo verjetnosti</strong> poti, npr. <code>P(S→S→D→D)</code>.</li>
+        <li>Najdemo <strong>stacionarno porazdelitev</strong> (dolgoročno razmerje).</li>
+    </ul>
+
+    <div class="callout">
+        <div class="eyebrow">Pomni</div>
+        V čisti markovski verigi <strong>vidimo stanja neposredno</strong>. V naslednjem
+        koraku jih bomo skrili — in to je začetek zanimivega dela.
+    </div>
+
+    <div class="page-nav">
+        <a href="{{ url_for('index') }}">
+            <span class="eyebrow">← Nazaj</span>
+            <strong>Domov</strong>
+        </a>
+        <a href="{{ url_for('teorija_hmm') }}" class="next">
+            <span class="eyebrow">02 · Naprej →</span>
+            <strong>Skriti Markovski modeli</strong>
+        </a>
+    </div>
+</div>
+
+{% endblock %}
